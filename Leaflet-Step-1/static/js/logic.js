@@ -51,7 +51,7 @@ function markerSize(response){
       fillColor: chooseColor(response.features[i].geometry.coordinates[2]),
       // Adjust radius
       radius: markerSize(response.features[i].properties.mag)
-    }).bindPopup("<h1> Magnitud: " + response.features[i].properties.mag + "</h1> <hr> <h3>Depth in Km: " + response.features[i].geometry.coordinates[2]+ "</h3>");
+    }).bindPopup("<h1> Magnitud: " + response.features[i].properties.mag + "</h1> <hr> <h3>Depth in Km: " + response.features[i].geometry.coordinates[2]+ "</h3> <h3>Location: "+ response.features[i].properties.place+"</h3>");
     earthquakeMarker.push(circle)
 
     //console.log(response.features[i].geometry.coordinates[0])
