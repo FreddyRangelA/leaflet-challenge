@@ -1,6 +1,6 @@
 
-function createMap(earthquakes){
-
+function createMap(earthquakes/*, responsePlate*/){
+//fron this layer the gray scale map was collected
   var lightmap=L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
@@ -9,23 +9,45 @@ function createMap(earthquakes){
     id: "mapbox/light-v10",
     accessToken: API_KEY
   });
-
+/*//fron this layer the satellite map was collected
+  var satellite=L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/satellite-v9",
+    accessToken: API_KEY
+  });
+//fron this layer the outDoors map was collected
+  var outdoors=L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    tileSize: 512,
+    maxZoom: 18,
+    zoomOffset: -1,
+    id: "mapbox/outdoors-v11",
+    accessToken: API_KEY
+  });*/
+//base map layer are call for the control box
   var baseMaps = {
     "Grayscale": lightmap,
+    /*"Satellite": satellite,
+    "OutDoors":outdoors,*/
     
   };
+  //filter for the markers.
   var overlayMaps = {
     "Earthquakes": earthquakes,
+    /*"Techtonic Plates":responsePlate,*/
       
   };
 
-
+//map gets created
   var myMap = L.map("mapid", {
     center: [29.7604, -95.3698],
     zoom: 10,
     layers: [lightmap, earthquakes]
   });
-
+// control leyer calls base map and overlay for the layer.
   L.control.layers(baseMaps, overlayMaps).addTo(myMap);
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
@@ -124,5 +146,18 @@ function markerSize(response){
   createMap(L.layerGroup(earthquakeMarker));
   
   
+  
 }
+
+/*d3.json("https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_boundaries.json").then(d=>markerSize(d));
+function tectonicplates(responsePlate){
+  L.geoJson(responsePlate, {
+    color: "#DC143C",
+    weight: 2
+  // Add plateData to tectonicPlates LayerGroups 
+  })
+
+  createMap(responsePlate)
+
+}*/
 
