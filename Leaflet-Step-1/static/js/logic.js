@@ -60,7 +60,7 @@ function markerSize(response){
   var earthquakeMarker=[]
   
   for (var i = 0; i < stations.length; i++){
-    var circle= L.circleMarker([response.features[i].geometry.coordinates[0],response.features[i].geometry.coordinates[1]], {
+    var circle= L.circleMarker([response.features[i].geometry.coordinates[1],response.features[i].geometry.coordinates[0]], {
       fillOpacity: 0.75,
       color: chooseColor(response.features[i].properties.mag),
       fillColor: chooseColor(response.features[i].geometry.coordinates[2]),
