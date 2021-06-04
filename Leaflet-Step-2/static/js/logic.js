@@ -53,7 +53,7 @@ function createMap(earthquakes/*, responsePlate*/){
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
       var div = L.DomUtil.create("div", "info legend"); 
-      var depthList = [-10,10,30,50,70];
+      var depthList = [-10,10,30,50,70,90];
        
       div.innerHTML += "<h3>Depth</h3>"
   
@@ -76,8 +76,10 @@ function createMap(earthquakes/*, responsePlate*/){
 function chooseColor(depth) {
       
   switch (true) {
-  case depth > 70:
+  case depth > 90:
       return "#8B0000";
+  case depth > 70:
+      return "#FF0000";
   case depth >50:
       return "#FF8C00";
   case depth > 30:
