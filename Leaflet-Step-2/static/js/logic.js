@@ -52,17 +52,17 @@ function createMap(earthquakes/*, responsePlate*/){
 
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
-      var div = L.DomUtil.create("div", "info legend"), 
-      depth = [-10,10,30,50,70];
-  
+      var div = L.DomUtil.create("div", "info legend"); 
+      var depthList = [-10,10,30,50,70];
+       
       div.innerHTML += "<h3>Depth</h3>"
   
-      for (var i = 0; i < depth.length; i++) {
-        console.log(chooseColor(i))
+      for (var i = 0; i < depthList.length; i++) {
+        console.log(chooseColor(depthList[i]))
           div.innerHTML +=
 
-              '<i style="background: ' + chooseColor(depth[i] + 1) + '"></i> ' +
-              depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+              '<i style="background:' + chooseColor(depthList[i] + 1) + '"></i> ' +
+              depthList[i] + (depthList[i + 1] ? '&ndash;' + depthList[i + 1] + '<br>' : '+');
               //
       }
       return div;
@@ -77,17 +77,17 @@ function chooseColor(depth) {
       
   switch (true) {
   case depth > 70:
-      return "red";
+      return "#8B0000";
   case depth >50:
-      return "orange";
+      return "#FF8C00";
   case depth > 30:
-      return "yellow";
+      return "#FFD700";
   case depth > 10:
-      return "lime";
+      return "#228B22";
   case depth > -10:
-      return "green";
+      return "#7FFF00";
   default:
-      return "#DAF7A6";
+      return "#F0F8FF";
   }
   
   
@@ -131,28 +131,8 @@ function markerSize(response){
     
     
   }
-
-  /*// Set Up Legend
-  var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
-      var div = L.DomUtil.create("div", "info legend"), 
-      depth = [0, 1, 2, 3, 4, 5];
-  
-      div.innerHTML += "<h3>Magnitude</h3>"
-  
-      for (var i = 0; i < depth.length; i++) {
-          div.innerHTML +=
-              '<i style="background: ' + chooseColor(depth[i] + 1) + '"></i> ' +
-              depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
-      }
-      return div;
-  };*/
-
-
   createMap(L.layerGroup(earthquakeMarker));
-  
-  
-  
+
 }
 
 d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(d => {
