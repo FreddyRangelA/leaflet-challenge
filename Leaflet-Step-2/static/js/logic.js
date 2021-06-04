@@ -37,7 +37,7 @@ function createMap(earthquakes/*, responsePlate*/){
   //filter for the markers.
   var overlayMaps = {
     "Earthquakes": earthquakes,
-    /*"Techtonic Plates":responsePlate,*/
+    //"Techtonic Plates":responsePlate,
       
   };
 
@@ -45,28 +45,53 @@ function createMap(earthquakes/*, responsePlate*/){
   var myMap = L.map("mapid", {
     center: [29.7604, -95.3698],
     zoom: 10,
-    layers: [lightmap, earthquakes]
+    layers: [lightmap, earthquakes, /*responsePlate*/]
   });
 // control leyer calls base map and overlay for the layer.
   L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
       var div = L.DomUtil.create("div", "info legend"), 
-      magnitudeLevels = [0,-10,10,30,50,70];
+      depth = [-10,10,30,50,70];
   
-      div.innerHTML += "<h3>Magnitude</h3>"
+      div.innerHTML += "<h3>Depth</h3>"
   
-      /*for (var i = 0; i < magnitudeLevels.length; i++) {
+      for (var i = 0; i < depth.length; i++) {
+        console.log(chooseColor(i))
           div.innerHTML +=
-              '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
-              magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
-      }*/
+
+              '<i style="background: ' + chooseColor(depth[i] + 1) + '"></i> ' +
+              depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+              //
+      }
       return div;
   }
   legend.addTo(myMap);
 
 }
 
+
+
+function chooseColor(depth) {
+      
+  switch (true) {
+  case depth > 70:
+      return "red";
+  case depth >50:
+      return "orange";
+  case depth > 30:
+      return "yellow";
+  case depth > 10:
+      return "lime";
+  case depth > -10:
+      return "green";
+  default:
+      return "#DAF7A6";
+  }
+  
+  
+}
 
 
 
@@ -102,45 +127,26 @@ function markerSize(response){
       return magnitude * 4;
     }
     //fuction that defines the color based on the mag 
-    function chooseColor(depth) {
-      
-      switch (true) {
-      case depth > 70:
-          return "red";
-      case depth >50:
-          return "orange";
-      case depth > 30:
-          return "yellow";
-      case depth > 10:
-          return "lime";
-      case depth > -10:
-          return "green";
-      default:
-          return "#DAF7A6";
-      }
-      
-      
-    }
-
+    
     
     
   }
 
-  // Set Up Legend
+  /*// Set Up Legend
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
       var div = L.DomUtil.create("div", "info legend"), 
-      magnitudeLevels = [0, 1, 2, 3, 4, 5];
+      depth = [0, 1, 2, 3, 4, 5];
   
       div.innerHTML += "<h3>Magnitude</h3>"
   
-      for (var i = 0; i < magnitudeLevels.length; i++) {
+      for (var i = 0; i < depth.length; i++) {
           div.innerHTML +=
-              '<i style="background: ' + chooseColor(magnitudeLevels[i] + 1) + '"></i> ' +
-              magnitudeLevels[i] + (magnitudeLevels[i + 1] ? '&ndash;' + magnitudeLevels[i + 1] + '<br>' : '+');
+              '<i style="background: ' + chooseColor(depth[i] + 1) + '"></i> ' +
+              depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
       }
       return div;
-  };
+  };*/
 
 
   createMap(L.layerGroup(earthquakeMarker));
@@ -149,8 +155,12 @@ function markerSize(response){
   
 }
 
-/*d3.json("https://github.com/fraxen/tectonicplates/blob/master/GeoJSON/PB2002_boundaries.json").then(d=>markerSize(d));
-function tectonicplates(responsePlate){
+d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(d => {
+  console.log(`this is tec datga :: ${d.type}`)
+});
+
+
+/*function tectonicplates(responsePlate){
   L.geoJson(responsePlate, {
     color: "#DC143C",
     weight: 2
